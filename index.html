@@ -57,7 +57,6 @@
       --shadow-glow: 0 0 25px rgba(2, 132, 199, 0.15);
     }
 
-    /* Reset & Global */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -478,11 +477,12 @@
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 32px;
+      padding: 28px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
+      overflow: hidden;
     }
 
     .project-card:hover {
@@ -491,11 +491,33 @@
       transform: translateY(-4px);
     }
 
+    .project-img-preview {
+      width: 100%;
+      height: 190px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-subtle);
+      background: #000;
+      cursor: pointer;
+    }
+
+    .project-img-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .project-img-preview:hover img {
+      transform: scale(1.04);
+    }
+
     .project-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .project-tag {
@@ -507,7 +529,7 @@
     }
 
     .project-card h3 {
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 700;
       line-height: 1.35;
       margin-bottom: 12px;
@@ -517,18 +539,18 @@
       font-size: 0.92rem;
       color: var(--text-muted);
       line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .project-stats-row {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      padding: 14px;
+      padding: 12px;
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .p-stat span {
@@ -539,7 +561,7 @@
     }
 
     .p-stat strong {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-main);
     }
 
@@ -790,7 +812,7 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      max-width: 840px;
+      max-width: 880px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
@@ -834,6 +856,15 @@
       margin-bottom: 24px;
       display: block;
       font-weight: 600;
+    }
+
+    .modal-hero-img {
+      width: 100%;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-soft);
+      display: block;
     }
 
     .case-section {
@@ -1182,9 +1213,12 @@
           </div>
         </div>
 
-        <!-- Project 4: Air Quality & Ozone -->
+        <!-- Project 4: Air Quality & Ozone (WITH DASHBOARD PREVIEW) -->
         <div class="project-card" data-category="bi">
           <div>
+            <div class="project-img-preview" onclick="openModal('modal-aqi')">
+              <img src="air_quality_dashboard.jpg" alt="2020 US Air Quality & Ozone Dashboard Preview" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80'" />
+            </div>
             <div class="project-meta">
               <span class="project-tag">Environmental Analytics</span>
               <span class="mono" style="font-size: 0.8rem; color: var(--text-faint);">Power BI Visuals</span>
@@ -1551,12 +1585,15 @@
     </div>
   </div>
 
-  <!-- Modal 4: Air Quality -->
+  <!-- Modal 4: Air Quality (WITH FULL DASHBOARD IMAGE) -->
   <div class="modal" id="modal-aqi">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal('modal-aqi')">✕</button>
       <h2>2020 US Air Quality & Ozone Pollution Dashboard</h2>
       <span class="modal-subtitle mono">CCDS 302 Data Visualization | University of Jeddah</span>
+
+      <!-- High Resolution Dashboard Display -->
+      <img src="air_quality_dashboard.jpg" alt="Interactive Power BI Dashboard Layout" class="modal-hero-img" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80'" />
 
       <div class="case-section">
         <h4>🎯 Project Overview</h4>
@@ -1566,10 +1603,10 @@
       <div class="case-section">
         <h4>🔍 Key Analytical Insights</h4>
         <ul>
-          <li><strong>Ozone vs. AQI Correlation:</strong> Scatter plots with linear trend lines confirmed that elevated arithmetic mean ozone levels directly mapped to higher maximum AQI readings.</li>
-          <li><strong>Geographical Clustering:</strong> Bubble map visuals revealed heavy concentrations of poor air quality in metropolitan and industrial regions. San Bernardino County registered the highest average AQI in the nation.</li>
-          <li><strong>Seasonal Fluctuations:</strong> Area charts confirmed ozone levels rose steadily during the first half of the year, peaking sharply during warm summer months (May–June) before declining.</li>
-          <li><strong>Monitoring Skewness:</strong> Donut charts demonstrated that California (42.71%), Texas (18.3%), and Florida (14.71%) accounted for the vast majority of monitoring sensor density.</li>
+          <li><strong>Ozone vs. AQI Correlation:</strong> Scatter plots with linear trend lines confirmed that elevated arithmetic mean ozone levels directly mapped to higher maximum AQI readings[cite: 7].</li>
+          <li><strong>Geographical Clustering:</strong> Bubble map visuals revealed heavy concentrations of poor air quality in metropolitan and industrial regions[cite: 7]. San Bernardino County registered the highest average AQI in the nation[cite: 7].</li>
+          <li><strong>Seasonal Fluctuations:</strong> Area charts confirmed ozone levels rose steadily during the first half of the year, peaking sharply during warm summer months (May–June) before declining[cite: 7].</li>
+          <li><strong>Monitoring Skewness:</strong> Donut charts demonstrated that California (42.71%), Texas (18.3%), and Florida (14.71%) accounted for the vast majority of monitoring sensor density[cite: 7].</li>
         </ul>
       </div>
     </div>
