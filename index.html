@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rimas Almuntashiri | Data Science & Financial Analytics Portfolio</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              cyan: '#06b6d4',
+              sky: '#0284c7',
+              violet: '#6366f1'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <style>
+    /* Custom Smooth Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #080c16; }
+    html:not(.dark) ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+
+    /* Ambient card glow */
+    .glow-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glow-card:hover {
+      box-shadow: 0 12px 35px -8px rgba(6, 182, 212, 0.18);
+      transform: translateY(-3px);
+    }
+    .hero-glow {
+      background: radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.15) 0%, rgba(16, 185, 129, 0.05) 50%, transparent 80%);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 dark:bg-[#070b14] dark:text-slate-200 font-sans transition-colors duration-300 min-h-screen flex flex-col selection:bg-cyan-500/20 selection:text-cyan-400">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/85 dark:bg-[#070b14]/85 border-b border-slate-200 dark:border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Identity -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 flex items-center justify-center text-slate-950 font-mono font-extrabold shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+          RA
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold tracking-tight text-base dark:text-white text-slate-900 group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">
+            Rimas Almuntashiri
+          </span>
+          <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 -mt-1">Data Science @ UJ</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#about" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">About</a>
+        <a href="#skills" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Skills</a>
+        <a href="#projects" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Featured Projects</a>
+        <a href="#experience" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Experience</a>
+        <a href="#certifications" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Certifications</a>
+        <a href="#contact" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Contact</a>
+      </nav>
+
+      <!-- Nav Actions: Theme Toggle & Resume -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" type="button" aria-label="Toggle Dark/Light Mode" class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">
+          <i id="themeIcon" class="ph ph-sun text-lg block"></i>
+        </button>
+
+        <!-- Direct Resume Download Button -->
+        <button onclick="downloadResume()" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-lg text-white bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-600 hover:to-emerald-600 shadow-sm shadow-cyan-500/20 transition-all active:scale-95">
+          <i class="ph ph-file-arrow-down text-sm"></i>
+          Resume CV
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuBtn" aria-label="Mobile Navigation Menu" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i class="ph ph-list text-2xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-md px-6 py-4 space-y-3">
+      <a href="#about" class="block py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-400">About</a>
+      <a href="#skills" class="block py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-400">Skills</a>
+      <a href="#projects" class="block py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-400">Featured Projects</a>
+      <a href="#experience" class="block py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-400">Experience</a>
+      <a href="#certifications" class="block py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-400">Certifications</a>
+      <a href="#contact" class="block py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-400">Contact</a>
+      <div class="pt-2">
+        <button onclick="downloadResume()" class="w-full text-center py-2 text-xs font-semibold rounded-lg text-white bg-gradient-to-r from-cyan-500 to-emerald-500">
+          Download Resume CV
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <section id="about" class="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden hero-glow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Left: Identity & Statement -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <!-- Academic & Status Pill -->
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Data Science Student @ University of Jeddah • Seeking Internships
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+              Uncovering Insights through 
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">
+                Data Science & Financial Analytics
+              </span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+              Passionate about programming, data analysis, and trading systems. Equipped with a rigorous foundation in machine learning pipelines, relational & NoSQL databases, and Business Intelligence dashboards—with a focus on market behavior modeling and algorithmic strategies.
+            </p>
+
+            <!-- Key Quick Pillars -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+              <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60">
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-mono">Analyzed Records</div>
+                <div class="text-xl font-bold text-slate-900 dark:text-cyan-400">1.28M+</div>
+              </div>
+              <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60">
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-mono">Certifications</div>
+                <div class="text-xl font-bold text-slate-900 dark:text-emerald-400">10+ Verified</div>
+              </div>
+              <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 col-span-2 sm:col-span-1">
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-mono">Clinical Experience</div>
+                <div class="text-xl font-bold text-slate-900 dark:text-sky-400">Hospital Stats</div>
+              </div>
+            </div>
+
+            <!-- Action CTAs -->
+            <div class="flex flex-wrap items-center gap-4 pt-3">
+              <a href="#projects" class="px-6 py-3 rounded-lg text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition shadow-lg shadow-cyan-400/20 flex items-center gap-2">
+                <i class="ph ph-folder-notch-open text-base"></i>
+                Explore Projects
+              </a>
+              <a href="#contact" class="px-5 py-3 rounded-lg text-sm font-semibold border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-200 transition flex items-center gap-2">
+                <i class="ph ph-paper-plane-tilt text-base"></i>
+                Get in Touch
+              </a>
+            </div>
+
+            <!-- Social Links Quick Access -->
+            <div class="flex items-center gap-4 pt-2 text-slate-500 dark:text-slate-400">
+              <span class="text-xs uppercase font-mono tracking-wider">Profiles:</span>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition text-xl" title="GitHub Profile">
+                <i class="ph ph-github-logo"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition text-xl" title="LinkedIn Profile">
+                <i class="ph ph-linkedin-logo"></i>
+              </a>
+              <a href="mailto:rimas.almuntashiri@example.com" class="hover:text-cyan-400 transition text-xl" title="Send Email">
+                <i class="ph ph-envelope-simple"></i>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Right: Visual Terminal / Profile Spotlight -->
+          <div class="lg:col-span-5">
+            <div class="rounded-2xl border border-slate-800 bg-[#0d1424] shadow-2xl overflow-hidden font-mono text-xs sm:text-sm text-slate-300">
+              <!-- Window Bar -->
+              <div class="flex items-center justify-between px-4 py-3 bg-[#11192d] border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-rose-500/90 inline-block"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-500/90 inline-block"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-500/90 inline-block"></span>
+                </div>
+                <span class="text-xs text-slate-400 flex items-center gap-1.5">
+                  <i class="ph ph-terminal-window"></i> rimas_profile.py
+                </span>
+                <span class="text-[10px] text-cyan-400">v2.4.0</span>
+              </div>
+
+              <!-- Terminal Code Content -->
+              <div class="p-5 space-y-2.5 leading-relaxed text-xs sm:text-[13px]">
+                <div><span class="text-slate-500"># Core Profile Matrix</span></div>
+                <div><span class="text-cyan-400">class</span> <span class="text-emerald-400">DataScientist</span>:</div>
+                <div class="pl-4 border-l border-slate-800 space-y-1">
+                  <div>name = <span class="text-amber-300">"Rimas Almuntashiri"</span></div>
+                  <div>university = <span class="text-amber-300">"University of Jeddah"</span></div>
+                  <div>focus_areas = [</div>
+                  <div class="pl-4 text-emerald-300">
+                    <span class="text-slate-300">"Machine Learning"</span>,<br>
+                    <span class="text-slate-300">"Financial Market Modeling"</span>,<br>
+                    <span class="text-slate-300">"Algorithmic Trading & Analytics"</span>
+                  </div>
+                  <div>]</div>
+                  <div>languages = [<span class="text-amber-200">'Python'</span>, <span class="text-amber-200">'R'</span>, <span class="text-amber-200">'SQL'</span>, <span class="text-amber-200">'Java'</span>]</div>
+                  <div>databases = [<span class="text-amber-200">'MySQL'</span>, <span class="text-amber-200">'MongoDB'</span>, <span class="text-amber-200">'Neo4j'</span>, <span class="text-amber-200">'openGauss'</span>]</div>
+                </div>
+                <div class="pt-2 text-slate-400 border-t border-slate-800/80 flex items-center gap-2">
+                  <span class="text-emerald-400">&gt;&gt;&gt;</span>
+                  <span>status = "Ready for Impact"</span>
+                  <span class="inline-block w-2 h-4 bg-cyan-400 animate-pulse"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Skills & Stack Section -->
+    <section id="skills" class="py-20 bg-slate-100/60 dark:bg-[#0c111e]/60 border-y border-slate-200 dark:border-slate-800/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <h2 class="text-xs font-mono font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-2">Technical Capabilities</h2>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white">Skills & Analytical Toolkit</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
+            Structured around scalable statistical methods, multi-database architecture, and financial decision modeling.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Group 1: Programming & ML -->
+          <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] shadow-sm">
+            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-500 flex items-center justify-center text-xl mb-4">
+              <i class="ph ph-code"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white mb-2">Programming & ML</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Core languages and machine learning implementations.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-cyan-700 dark:text-cyan-300">Python</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-cyan-700 dark:text-cyan-300">R</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-cyan-700 dark:text-cyan-300">Java (OOP)</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Scikit-Learn</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Pandas / NumPy</span>
+            </div>
+          </div>
+
+          <!-- Group 2: Databases & Storage Systems -->
+          <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] shadow-sm">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl mb-4">
+              <i class="ph ph-database"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white mb-2">Databases & Architecture</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Relational, document, graph, and enterprise database systems.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-emerald-700 dark:text-emerald-300">SQL</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-emerald-700 dark:text-emerald-300">MySQL</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-emerald-700 dark:text-emerald-300">MongoDB</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Neo4j (Graph)</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">openGauss</span>
+            </div>
+          </div>
+
+          <!-- Group 3: BI, ETL & Visualization -->
+          <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] shadow-sm">
+            <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-500 flex items-center justify-center text-xl mb-4">
+              <i class="ph ph-chart-line-up"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white mb-2">BI & Data Visualization</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Interactive dashboard design and data transformation pipelines.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-sky-700 dark:text-sky-300">Power BI</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-sky-700 dark:text-sky-300">Power Query ETL</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-sky-700 dark:text-sky-300">DAX</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Tableau</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Excel / openpyxl</span>
+            </div>
+          </div>
+
+          <!-- Group 4: Finance, Logic & Collaboration -->
+          <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] shadow-sm">
+            <div class="w-10 h-10 rounded-lg bg-violet-500/10 text-violet-500 flex items-center justify-center text-xl mb-4">
+              <i class="ph ph-trend-up"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white mb-2">Finance & Core Competencies</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Trading analysis, algorithmic logic, and team communication.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-violet-700 dark:text-violet-300">Financial Modeling</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-violet-700 dark:text-violet-300">Algorithmic Trading</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">RapidMiner</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Team Leadership</span>
+              <span class="px-2.5 py-1 text-xs rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Communication</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section id="projects" class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <h2 class="text-xs font-mono font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-2">Portfolio Evidence</h2>
+            <p class="text-3xl font-extrabold text-slate-900 dark:text-white">Academic & Applied Projects</p>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              End-to-end data pipelines, predictive modeling, multi-layered social web fraud detection, and BI ecosystems.
+            </p>
+          </div>
+
+          <!-- Interactive Filters -->
+          <div class="flex flex-wrap gap-2" id="filterContainer">
+            <button onclick="filterCategory('all', this)" class="cat-pill active px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white dark:bg-cyan-400 dark:text-slate-950 transition">All Projects</button>
+            <button onclick="filterCategory('ml', this)" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">Machine Learning</button>
+            <button onclick="filterCategory('bi', this)" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">BI & Analytics</button>
+            <button onclick="filterCategory('social', this)" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">Social Web & NLP</button>
+          </div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projectsGrid">
+          
+          <!-- Project 1: Smoker Status ML -->
+          <div class="project-item rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] overflow-hidden flex flex-col glow-card" data-cat="ml">
+            <div class="p-7 flex-grow">
+              
+              <div class="flex items-center justify-between gap-3 mb-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  <i class="ph ph-users-three mr-1.5"></i> 1,000,000 Insurance Records
+                </span>
+                <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400">CCDS 322 • Applied ML</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Smoker Status Prediction from Health Insurance Records
+              </h3>
+
+              <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 font-mono">
+                Team: Rimas Almuntashiri, Ghadof Aljabri, Lama Alqarashi, Mayar Mousa, Taraf Abdullah (May 2025)
+              </p>
+
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                A comparative machine learning study predicting smoker status ("Yes"/"No") across 1M records to solve missing self-reported risks. Handled 501,166 missing values via median/mode imputation, applied stratified 80/20 splitting, and benchmarked Logistic Regression, 3 SVM Kernels, and Random Forest.
+              </p>
+
+              <!-- Findings Badges -->
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 mb-4 border border-slate-200 dark:border-slate-800">
+                <div><span class="text-slate-500">Best Practical:</span> <strong class="text-emerald-400">Random Forest 80.79%</strong></div>
+                <div><span class="text-slate-500">Key Drivers:</span> <strong class="text-cyan-400">Charges, BMI, Age</strong></div>
+                <div><span class="text-slate-500">Linear Baseline:</span> <span class="text-slate-300">74.48% (LogReg)</span></div>
+                <div><span class="text-slate-500">Best Raw Acc:</span> <span class="text-slate-300">81.17% (Poly SVM)</span></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Python 3.x</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Random Forest</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">SVM Kernels</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">StandardScaler</span>
+              </div>
+            </div>
+
+            <!-- Card Bottom Bar -->
+            <div class="px-7 py-4 bg-slate-50/80 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+              <button onclick="openModal('smokerModal')" class="font-semibold text-cyan-600 dark:text-cyan-400 hover:underline flex items-center gap-1.5">
+                Full Case Study Breakdown <i class="ph ph-arrow-up-right"></i>
+              </button>
+              <a href="https://github.com" target="_blank" class="text-slate-400 hover:text-cyan-400 flex items-center gap-1">
+                <i class="ph ph-github-logo text-base"></i> Notebook & Report
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 2: Fake Influencers Detection -->
+          <div class="project-item rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] overflow-hidden flex flex-col glow-card" data-cat="social">
+            <div class="p-7 flex-grow">
+              
+              <div class="flex items-center justify-between gap-3 mb-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+                  <i class="ph ph-shield-check mr-1.5"></i> Multi-Layer Framework
+                </span>
+                <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400">CCDS-431 • Social Web Analytics</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Detecting Fake Influencers Using Multi-Layer Social Media Analysis
+              </h3>
+
+              <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 font-mono">
+                Team: Ghala Alward, Rimas Albahkali, Milf Alnaqeeb, Rimas Almuntashiri
+              </p>
+
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                Designed a 4-layer audit framework (Text, Action, Network, Hyperlink) analyzing 1,773 accounts across Instagram and X (Twitter). Extracted n-grams from bot accounts, computed daily posting consistency, and validated that single-feature vetting fails without integrated correlation modeling.
+              </p>
+
+              <!-- Findings Badges -->
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 mb-4 border border-slate-200 dark:border-slate-800">
+                <div><span class="text-slate-500">Evaluated Data:</span> <strong class="text-cyan-400">1,773 Accounts & 27 Feats</strong></div>
+                <div><span class="text-slate-500">Posting Frequency:</span> <strong class="text-emerald-400">Real (0.36) vs Fake (0.29)</strong></div>
+                <div><span class="text-slate-500">Follower Ratio:</span> <span class="text-amber-400">Easily Gamed by Bots</span></div>
+                <div><span class="text-slate-500">Core Takeaway:</span> <span class="text-slate-300">Multi-layer Matrix Required</span></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Python</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">NLP Sentiment</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">WordCloud</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Correlation Matrix</span>
+              </div>
+            </div>
+
+            <!-- Card Bottom Bar -->
+            <div class="px-7 py-4 bg-slate-50/80 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+              <button onclick="openModal('influencerModal')" class="font-semibold text-cyan-600 dark:text-cyan-400 hover:underline flex items-center gap-1.5">
+                Full Case Study Breakdown <i class="ph ph-arrow-up-right"></i>
+              </button>
+              <a href="https://github.com" target="_blank" class="text-slate-400 hover:text-cyan-400 flex items-center gap-1">
+                <i class="ph ph-github-logo text-base"></i> Colab Code & PDF
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 3: Credit Card Fraud Detection -->
+          <div class="project-item rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] overflow-hidden flex flex-col glow-card" data-cat="bi">
+            <div class="p-7 flex-grow">
+              
+              <div class="flex items-center justify-between gap-3 mb-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20">
+                  <i class="ph ph-credit-card mr-1.5"></i> 284,807 Financial Transactions
+                </span>
+                <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400">CCDS 313 • Business Intelligence</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Credit Card Fraud Detection — End-to-End BI & Machine Learning
+              </h3>
+
+              <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 font-mono">
+                Team: Rimas Almuntashiri (ETL & Power BI Dashboard Lead), Layan Almunammis, Layan Alshaikhi
+              </p>
+
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                Led the descriptive analytics, ETL, and interactive dashboard engineering in Power BI for European credit card records ($60.13K total fraud loss). Highlighted the class imbalance challenge (0.17% fraud rate leading to 99.63% accuracy but 0% recall without SMOTE) and established a 3-tier prescriptive action engine.
+              </p>
+
+              <!-- Findings Badges -->
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 mb-4 border border-slate-200 dark:border-slate-800">
+                <div><span class="text-slate-500">My Ownership:</span> <strong class="text-cyan-400">Power Query ETL & Power BI</strong></div>
+                <div><span class="text-slate-500">Fraud Transaction:</span> <strong class="text-violet-400">$122.21 Avg vs $88.29 Legitimate</strong></div>
+                <div><span class="text-slate-500">Imbalance Lesson:</span> <span class="text-amber-400">Accuracy Paradox & Recall</span></div>
+                <div><span class="text-slate-500">Prescriptive Tier:</span> <span class="text-emerald-400">Auto-Block (>90% Conf)</span></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Power BI Desktop</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Power Query ETL</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">RapidMiner Studio</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Decision Logic</span>
+              </div>
+            </div>
+
+            <!-- Card Bottom Bar -->
+            <div class="px-7 py-4 bg-slate-50/80 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+              <button onclick="openModal('fraudModal')" class="font-semibold text-cyan-600 dark:text-cyan-400 hover:underline flex items-center gap-1.5">
+                Full Case Study Breakdown <i class="ph ph-arrow-up-right"></i>
+              </button>
+              <a href="https://github.com" target="_blank" class="text-slate-400 hover:text-cyan-400 flex items-center gap-1">
+                <i class="ph ph-github-logo text-base"></i> Power BI & Models
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 4: Air Quality & Ozone 2020 -->
+          <div class="project-item rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] overflow-hidden flex flex-col glow-card" data-cat="bi">
+            <div class="p-7 flex-grow">
+              
+              <div class="flex items-center justify-between gap-3 mb-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  <i class="ph ph-cloud-fog mr-1.5"></i> EPA 2020 National Environmental Data
+                </span>
+                <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400">CCDS 302 • Data Visualization</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Air Quality & Ozone Analysis Across the United States (2020)
+              </h3>
+
+              <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 font-mono">
+                Team: Rimas Almuntashiri, Layan Almunammis, Layan Alshaikhi
+              </p>
+
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                Constructed an interactive analytical Power BI dashboard investigating US outdoor air monitoring stations. Formulated scatter plot trendlines correlating ozone concentration with Maximum AQI, plotted geographic hotspot density maps, identified top-polluted counties, and modeled seasonal summer curves.
+              </p>
+
+              <!-- Findings Badges -->
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 mb-4 border border-slate-200 dark:border-slate-800">
+                <div><span class="text-slate-500">Correlation:</span> <strong class="text-cyan-400">Ozone vs Max AQI Positive Line</strong></div>
+                <div><span class="text-slate-500">Highest Avg AQI:</span> <strong class="text-emerald-400">San Bernardino County</strong></div>
+                <div><span class="text-slate-500">Seasonal Peak:</span> <span class="text-amber-400">May - June Summer Curve</span></div>
+                <div><span class="text-slate-500">State Share:</span> <span class="text-slate-300">California (42.7%), Texas (18.3%)</span></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Power BI Desktop</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Map Visuals</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Power Query</span>
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">EPA Dataset</span>
+              </div>
+            </div>
+
+            <!-- Card Bottom Bar -->
+            <div class="px-7 py-4 bg-slate-50/80 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+              <button onclick="openModal('ozoneModal')" class="font-semibold text-cyan-600 dark:text-cyan-400 hover:underline flex items-center gap-1.5">
+                Full Case Study Breakdown <i class="ph ph-arrow-up-right"></i>
+              </button>
+              <a href="https://github.com" target="_blank" class="text-slate-400 hover:text-cyan-400 flex items-center gap-1">
+                <i class="ph ph-github-logo text-base"></i> Dashboard Files
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Experience & Practical Training Section -->
+    <section id="experience" class="py-20 bg-slate-100/60 dark:bg-[#0c111e]/60 border-t border-slate-200 dark:border-slate-800/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="max-w-2xl mb-12">
+          <h2 class="text-xs font-mono font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-2">Professional Grounding</h2>
+          <p class="text-3xl font-extrabold text-slate-900 dark:text-white">Clinical & Practical Experience</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            Applying data governance, healthcare metrics, and quantitative validation in real-world environments.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111726] p-8 shadow-sm">
+          <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-slate-200
